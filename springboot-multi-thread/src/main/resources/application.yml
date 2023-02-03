@@ -1,0 +1,81 @@
+# 服务器设置
+server:
+  # 服务器的HTTP端口，默认为8080
+  port: 9100
+  servlet:
+    # 应用的访问路径
+    context-path: /springboot/multi/thread
+
+spring:
+  application:
+    # 服务名称
+    name: springboot-base-test
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/springboot-base-test?useSSL=false&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
+      username: root
+      password: root
+      # 初始连接数
+      initial-size: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      webStatFilter:
+        enabled: true
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username: cactus
+        login-password: 123456
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+  output:
+    ansi:
+      # 启用彩色日志打印
+      enabled: always
+
+# MyBatis配置
+mybatis:
+  # mapper映射文件路径
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  # 搜索指定包别名
+  # (如果type-aliases-package不进行配置，resultType就得写全名resultType="com.liyh.entity.User"，
+  # 但是如果配置了别名,就可以不用写全路径直接写resultType="User"即可)
+  type-aliases-package: com.cactus.**.entity
+  configuration:
+    # 输出sql语句
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#打印sql，保存到文件
+logging:
+  level:
+    com.cactus.springboot.multi.thread.mapper: debug
+
+
