@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cactus.springboot.multi.thread.mapper.QmItemsMapper">
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into tbl_qm_items(items_name, create_time, update_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.itemsName}, sysdate(), sysdate())
+        </foreach>
+    </insert>
+
+    <!-- 删除数据 -->
+    <delete id="delete">
+        delete from tbl_qm_items where id = #{id}
+    </delete>
+
+</mapper>
+

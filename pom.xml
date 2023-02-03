@@ -6,6 +6,11 @@
     <artifactId>springboot-base-test</artifactId>
     <version>1.0.0</version>
     <name>springboot-base-test</name>
+    <packaging>pom</packaging>
     <description>SpringBoot基础测试</description>
+
+    <modules>
+        <module>springboot-multi-thread</module>
+    </modules>
 
 </project>
