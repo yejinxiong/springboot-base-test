@@ -1,11 +1,11 @@
 package com.cactus.springboot.multi.thread.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.cactus.springboot.multi.thread.config.ExecutorConfig;
+import com.cactus.springboot.multi.thread.utils.ExecutorConfig;
 import com.cactus.springboot.multi.thread.entity.QmItems;
 import com.cactus.springboot.multi.thread.mapper.QmItemsMapper;
 import com.cactus.springboot.multi.thread.service.QmItemsService;
-import com.cactus.springboot.multi.thread.web.SqlContext;
+import com.cactus.springboot.multi.thread.utils.SqlContext;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -88,7 +89,7 @@ public class QmItemsServiceImpl implements QmItemsService {
      * @param itemsList 数据集
      */
     @Override
-    public void transactionalSuccess(Long id, List<QmItems> itemsList) {
+    public void transactionalSuccess(Long id, List<QmItems> itemsList) throws SQLException {
         // 获取数据库连接，获取会话(内部自有事务)
         SqlSession sqlSession = sqlContext.getSqlSession();
         Connection connection = sqlSession.getConnection();
@@ -102,14 +103,12 @@ public class QmItemsServiceImpl implements QmItemsService {
             ExecutorService executorService = ExecutorConfig.getThreadPool();
             // 拆分数据集合：每个小集合的容量为5
             List<List<QmItems>> list = ListUtils.partition(itemsList, 5);
-            for (List<QmItems> qmItemsList : list) {
-                LOGGER.info("{}", qmItemsList);
-            }
             // 收集子线程
             List<Callable<Integer>> callableList = new ArrayList<>();
             AtomicBoolean atomicBoolean = new AtomicBoolean(true);
             // 生成子线程任务
             for (int i = 0; i < list.size(); i++) {
+                LOGGER.info("{}", list.get(i));
                 // 记录最后一个子线程
                 if (i == list.size() - 1) {
                     atomicBoolean.set(false);
@@ -139,7 +138,10 @@ public class QmItemsServiceImpl implements QmItemsService {
             connection.commit();
             LOGGER.warn("事务提交完毕");
         } catch (Exception e) {
+            connection.rollback();
             throw new RuntimeException("操作失败：" + e.getMessage());
+        } finally {
+            connection.close();
         }
     }
 

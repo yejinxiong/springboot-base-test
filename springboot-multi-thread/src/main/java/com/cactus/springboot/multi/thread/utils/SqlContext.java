@@ -1,4 +1,4 @@
-package com.cactus.springboot.multi.thread.web;
+package com.cactus.springboot.multi.thread.utils;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
