@@ -1,4 +1,4 @@
-package com.cactus.springboot.multi.thread.config;
+package com.cactus.springboot.multi.thread.utils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;

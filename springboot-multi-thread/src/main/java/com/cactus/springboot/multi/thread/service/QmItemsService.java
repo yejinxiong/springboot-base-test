@@ -2,6 +2,7 @@ package com.cactus.springboot.multi.thread.service;
 
 import com.cactus.springboot.multi.thread.entity.QmItems;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -24,6 +25,6 @@ public interface QmItemsService {
      * @param id 更新ID
      * @param itemsList 数据集
      */
-    void transactionalSuccess(Long id, List<QmItems> itemsList);
+    void transactionalSuccess(Long id, List<QmItems> itemsList) throws SQLException;
 
 }
