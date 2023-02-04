@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * 评分项表(QmItems)实体类
  *
- * @author makejava
+ * @author yejx
  * @since 2023-02-03 14:33:33
  */
 @Data
