@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 评分项表(QmItems)表数据库访问层
  *
- * @author makejava
+ * @author yejx
  * @since 2023-02-03 14:33:28
  */
 public interface QmItemsMapper {

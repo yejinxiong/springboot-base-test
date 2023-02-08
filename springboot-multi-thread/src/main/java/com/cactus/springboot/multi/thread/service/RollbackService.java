@@ -8,10 +8,10 @@ import java.util.List;
 /**
  * 评分项表(QmItems)表服务接口
  *
- * @author makejava
+ * @author yejx
  * @since 2023-02-03 14:33:35
  */
-public interface QmItemsService {
+public interface RollbackService {
 
     /**
      * 事务失败

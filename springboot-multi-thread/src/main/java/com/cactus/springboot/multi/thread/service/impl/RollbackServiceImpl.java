@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.cactus.springboot.multi.thread.utils.ExecutorConfig;
 import com.cactus.springboot.multi.thread.entity.QmItems;
 import com.cactus.springboot.multi.thread.mapper.QmItemsMapper;
-import com.cactus.springboot.multi.thread.service.QmItemsService;
+import com.cactus.springboot.multi.thread.service.RollbackService;
 import com.cactus.springboot.multi.thread.utils.SqlContext;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -24,15 +24,15 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * 评分项表(QmItems)表服务实现类
+ * 事务回滚服务实现类
  *
- * @author makejava
+ * @author yejx
  * @since 2023-02-03 14:33:38
  */
-@Service("qmItemsService")
-public class QmItemsServiceImpl implements QmItemsService {
+@Service("rollbackService")
+public class RollbackServiceImpl implements RollbackService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(QmItemsServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RollbackServiceImpl.class);
 
     @Resource
     private QmItemsMapper qmItemsMapper;
