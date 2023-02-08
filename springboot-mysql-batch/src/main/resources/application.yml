@@ -1,0 +1,32 @@
+# 服务器设置
+server:
+  # 服务器的HTTP端口，默认为8080
+  port: 9101
+  servlet:
+    # 应用的访问路径
+    context-path: /springboot/mysql/batch
+
+spring:
+  application:
+    # 服务名称
+    name: springboot-mysql-batch
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/springboot_base_test?useSSL=false&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+
+# MyBatis配置
+mybatis:
+  # mapper映射文件路径
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  # 搜索指定包别名
+  # 如果type-aliases-package不进行配置，resultType就得写全名resultType="com.liyh.entity.User"，
+  # 但是如果配置了别名,就可以不用写全路径直接写resultType="User"即可)
+  type-aliases-package: com.cactus.**.entity
+  configuration:
+    # 输出sql语句
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
