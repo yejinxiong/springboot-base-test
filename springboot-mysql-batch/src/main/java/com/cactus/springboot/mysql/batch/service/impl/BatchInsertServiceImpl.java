@@ -40,7 +40,7 @@ public class BatchInsertServiceImpl implements BatchInsertService {
     private SqlContext sqlContext;
 
     /**
-     * 批量插入：for循环插入（单条），自动提交事务
+     * 批量插入：单条sql-自动提交事务
      *
      * @param itemsList 数据集
      * @return 操作信息
@@ -61,11 +61,11 @@ public class BatchInsertServiceImpl implements BatchInsertService {
             result = "失败";
         }
         stopWatch.stop();
-        return String.format("操作类型：批量插入：for循环插入（单条），自动提交事务<br/>操作数量：%s条<br/>操作耗时：%s秒<br/>操作结果：%s", itemsList.size(), stopWatch.getTotalTimeSeconds(), result);
+        return String.format("操作类型：单条sql-自动提交事务<br/>操作数量：%s条<br/>操作耗时：%s秒<br/>操作结果：%s", itemsList.size(), stopWatch.getTotalTimeSeconds(), result);
     }
 
     /**
-     * 批量插入：for循环插入（单条），手动提交事务
+     * 批量插入：单条sql-手动提交事务
      *
      * @param itemsList 数据集
      * @return 操作信息
@@ -93,7 +93,7 @@ public class BatchInsertServiceImpl implements BatchInsertService {
             // 手动提交事务
             connection.commit();
             stopWatch.stop();
-            return String.format("操作类型：批量插入：for循环插入（单条），手动提交事务<br/>操作数量：%s条<br/>操作耗时：%s秒<br/>操作结果：%s", itemsList.size(), stopWatch.getTotalTimeSeconds(), result);
+            return String.format("操作类型：单条sql-手动提交事务<br/>操作数量：%s条<br/>操作耗时：%s秒<br/>操作结果：%s", itemsList.size(), stopWatch.getTotalTimeSeconds(), result);
         } catch (SQLException e) {
             // 事务回滚
             connection.rollback();
@@ -104,7 +104,7 @@ public class BatchInsertServiceImpl implements BatchInsertService {
     }
 
     /**
-     * 批量插入：sql拼接，自动提交事务
+     * 批量插入：sql拼接-自动提交事务
      *
      * @param itemsList 数据集
      * @return 操作信息
@@ -121,11 +121,11 @@ public class BatchInsertServiceImpl implements BatchInsertService {
             result = "失败";
         }
         stopWatch.stop();
-        return String.format("操作类型：批量插入：sql拼接，自动提交事务<br/>操作数量：%s条<br/>操作耗时：%s秒<br/>操作结果：%s", itemsList.size(), stopWatch.getTotalTimeSeconds(), result);
+        return String.format("操作类型：sql拼接-自动提交事务<br/>操作数量：%s条<br/>操作耗时：%s秒<br/>操作结果：%s", itemsList.size(), stopWatch.getTotalTimeSeconds(), result);
     }
 
     /**
-     * 批量插入：sql拼接，手动提交事务
+     * 批量插入：sql拼接-手动提交事务
      *
      * @param itemsList 数据集
      * @return 操作信息
@@ -151,7 +151,7 @@ public class BatchInsertServiceImpl implements BatchInsertService {
             // 手动提交事务
             connection.commit();
             stopWatch.stop();
-            return String.format("操作类型：批量插入：sql拼接，手动提交事务<br/>操作数量：%s条<br/>操作耗时：%s秒<br/>操作结果：%s", itemsList.size(), stopWatch.getTotalTimeSeconds(), result);
+            return String.format("操作类型：sql拼接-手动提交事务<br/>操作数量：%s条<br/>操作耗时：%s秒<br/>操作结果：%s", itemsList.size(), stopWatch.getTotalTimeSeconds(), result);
         } catch (SQLException e) {
             // 事务回滚
             connection.rollback();
@@ -162,7 +162,7 @@ public class BatchInsertServiceImpl implements BatchInsertService {
     }
 
     /**
-     * 批量插入：list分片，sql拼接，自动提交事务
+     * 批量插入：list分片-sql拼接-自动提交事务
      *
      * @param itemsList 数据集
      * @return 操作信息
@@ -186,11 +186,11 @@ public class BatchInsertServiceImpl implements BatchInsertService {
             }
         }
         stopWatch.stop();
-        return String.format("操作类型：批量插入<br/>操作数量：%s条<br/>操作耗时：%s秒<br/>操作结果：%s", itemsList.size(), stopWatch.getTotalTimeSeconds(), result);
+        return String.format("操作类型：list分片-sql拼接-自动提交事务<br/>操作数量：%s条<br/>操作耗时：%s秒<br/>操作结果：%s", itemsList.size(), stopWatch.getTotalTimeSeconds(), result);
     }
 
     /**
-     * 批量插入：list分片，sql拼接，手动提交事务
+     * 批量插入：list分片-sql拼接-手动提交事务
      * 通过多线程异步处理多个小list，并通过SqlSession控制事务
      *
      * @param itemsList 数据集
@@ -237,7 +237,7 @@ public class BatchInsertServiceImpl implements BatchInsertService {
             connection.commit();
             LOGGER.warn("事务提交完毕");
             stopWatch.stop();
-            return String.format("操作类型：批量插入<br/>操作数量：%s条<br/>操作耗时：%s秒<br/>操作结果：%s", itemsList.size(), stopWatch.getTotalTimeSeconds(), result);
+            return String.format("操作类型：list分片-sql拼接-手动提交事务<br/>操作数量：%s条<br/>操作耗时：%s秒<br/>操作结果：%s", itemsList.size(), stopWatch.getTotalTimeSeconds(), result);
         } catch (Exception e) {
             // 事务回滚
             connection.rollback();
