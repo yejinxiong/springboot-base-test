@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StopWatch;
 
@@ -46,6 +47,7 @@ public class BatchInsertServiceImpl implements BatchInsertService {
      * @return 操作信息
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String forSingle(List<QmItems> itemsList) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
@@ -110,6 +112,7 @@ public class BatchInsertServiceImpl implements BatchInsertService {
      * @return 操作信息
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String sqlForeach(List<QmItems> itemsList) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
@@ -168,14 +171,13 @@ public class BatchInsertServiceImpl implements BatchInsertService {
      * @return 操作信息
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String splitListSqlForeach(List<QmItems> itemsList) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         String result = "成功";
         // list分片：每个小集合的容量为5
         List<List<QmItems>> list = ListUtils.partition(itemsList, 500);
-        // 收集子线程
-        List<Callable<Integer>> callableList = new ArrayList<>();
         // 生成子线程任务
         for (List<QmItems> items : list) {
             int batchInsertCount = qmItemsMapper.batchInsert(items);
@@ -183,6 +185,7 @@ public class BatchInsertServiceImpl implements BatchInsertService {
                 // 手动回滚
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 result = "失败";
+                break;
             }
         }
         stopWatch.stop();
@@ -235,7 +238,7 @@ public class BatchInsertServiceImpl implements BatchInsertService {
             }
             // 手动提交事务
             connection.commit();
-            LOGGER.warn("事务提交完毕");
+            LOGGER.info("事务提交完毕");
             stopWatch.stop();
             return String.format("操作类型：list分片-sql拼接-手动提交事务<br/>操作数量：%s条<br/>操作耗时：%s秒<br/>操作结果：%s", itemsList.size(), stopWatch.getTotalTimeSeconds(), result);
         } catch (Exception e) {
