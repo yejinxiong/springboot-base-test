@@ -10,10 +10,10 @@
 
     <!-- 批量插入 -->
     <insert id="batchInsert" keyProperty="id" useGeneratedKeys="true">
-        insert into tbl_qm_items(items_name, create_time, update_time)
+        insert into tbl_qm_items(standard_id, items_name, items_score, items_type, use_flag, delete_flag, remark, create_user, create_name,  create_time, update_time)
         values
         <foreach collection="list" item="item" separator=",">
-            (#{item.itemsName}, sysdate(), sysdate())
+            (#{item.standardId}, #{item.itemsName}, #{item.itemsScore}, #{item.itemsType}, #{item.useFlag}, #{item.deleteFlag}, #{item.remark}, #{item.createUser}, #{item.createName}, sysdate(), sysdate())
         </foreach>
     </insert>
 

@@ -177,7 +177,7 @@ public class BatchInsertServiceImpl implements BatchInsertService {
         stopWatch.start();
         String result = "成功";
         // list分片：每个小集合的容量为5
-        List<List<QmItems>> list = ListUtils.partition(itemsList, 500);
+        List<List<QmItems>> list = ListUtils.partition(itemsList, 1000);
         // 生成子线程任务
         for (List<QmItems> items : list) {
             int batchInsertCount = qmItemsMapper.batchInsert(items);
@@ -214,7 +214,7 @@ public class BatchInsertServiceImpl implements BatchInsertService {
             // 获取线程池
             ExecutorService executorService = ExecutorConfig.getThreadPool();
             // list分片：每个小集合的容量为5
-            List<List<QmItems>> list = ListUtils.partition(itemsList, 500);
+            List<List<QmItems>> list = ListUtils.partition(itemsList, 1000);
             // 收集子线程
             List<Callable<Integer>> callableList = new ArrayList<>();
             // 生成子线程任务
