@@ -24,9 +24,14 @@ mybatis:
   # 如果type-aliases-package不进行配置，resultType就得写全名resultType="com.liyh.entity.User"，
   # 但是如果配置了别名,就可以不用写全路径直接写resultType="User"即可)
   type-aliases-package: com.cactus.**.entity
-  configuration:
-    # 输出sql语句
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  configuration:
+#    # 输出sql语句
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#打印sql，保存到文件
+logging:
+  level:
+    com.cactus.springboot.mysql.batch: debug
 
 
 
