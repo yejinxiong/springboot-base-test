@@ -10,6 +10,7 @@
     <description>SpringBoot基础测试</description>
 
     <modules>
+        <module>springboot-lifecycle</module>
         <module>springboot-multi-thread</module>
         <module>springboot-mysql-batch</module>
     </modules>
